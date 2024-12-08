@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.InMemory;
+using Microsoft.SemanticKernel.Connectors.Qdrant;
 using Microsoft.SemanticKernel.Embeddings;
+using Qdrant.Client;
 using System.Text.Json;
 
 namespace SemanticKernelPlayground.Scenarios;
@@ -13,6 +15,10 @@ public static class VectorStoreScenarios
     public static async Task VectorStoreSample(Kernel kernel)
     {
         var vectorStore = new InMemoryVectorStore();
+
+        // docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant:latest
+        // Qdrant dashboard: http://localhost:6333/dashboard
+        //var vectorStore = new QdrantVectorStore(new QdrantClient("localhost"));
 
         // Get a collection instance using vector store
         var collection = vectorStore.GetCollection<ulong, Glossary>("skglossary");
@@ -56,6 +62,12 @@ public static class VectorStoreScenarios
         {
             Console.WriteLine("Key: {key} upserted.");
         }
+
+        //foreach (var item in glossaryEntries)
+        //{
+        //    await collection.UpsertAsync(item);
+        //}
+
 
         // get records by key
 

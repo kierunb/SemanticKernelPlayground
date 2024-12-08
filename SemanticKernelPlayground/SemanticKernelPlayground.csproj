@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.AzureOpenAI" Version="1.31.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.31.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" Version="1.31.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.31.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.31.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Sqlite" Version="1.31.0-preview" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.SqlServer" Version="1.31.0-alpha" />

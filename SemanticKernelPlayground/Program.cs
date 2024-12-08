@@ -86,8 +86,8 @@ try
 
     await VectorStoreScenarios.VectorStoreSample(kernel);
 
-    await WebTextSearchScenarios.BingWebSearch(configuration);
-    await WebTextSearchScenarios.SemanticKernelBingWebSearch(configuration, kernel);
+    //await WebTextSearchScenarios.BingWebSearch(configuration);
+    //await WebTextSearchScenarios.SemanticKernelBingWebSearch(configuration, kernel);
 
     //await AgentScenarios.ChatAgentExample(kernel);
 }
