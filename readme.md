@@ -12,6 +12,11 @@ docker run -it -d `
     mcr.microsoft.com/dotnet/aspire-dashboard:9.0
 ```
 
+**Setup Qdrant vector database container**
+```powershell
+docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant:latest
+```
+
 ## AzureOpenAI/OpenAI setup
 
 Provide keys and endpoints using appsetting.json or user secrets.
