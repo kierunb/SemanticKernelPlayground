@@ -12,13 +12,9 @@ namespace SemanticKernelPlayground.Scenarios;
 
 public static class VectorStoreScenarios
 {
-    public static async Task VectorStoreSample(Kernel kernel)
+    public static async Task VectorMemoryStoreSample(Kernel kernel)
     {
         var vectorStore = new InMemoryVectorStore();
-
-        // docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant:latest
-        // Qdrant dashboard: http://localhost:6333/dashboard
-        //var vectorStore = new QdrantVectorStore(new QdrantClient("localhost"));
 
         // Get a collection instance using vector store
         var collection = vectorStore.GetCollection<ulong, Glossary>("skglossary");
@@ -63,12 +59,6 @@ public static class VectorStoreScenarios
             Console.WriteLine("Key: {key} upserted.");
         }
 
-        //foreach (var item in glossaryEntries)
-        //{
-        //    await collection.UpsertAsync(item);
-        //}
-
-
         // get records by key
 
         var options = new GetRecordOptions() { IncludeVectors = true };
@@ -98,6 +88,57 @@ public static class VectorStoreScenarios
             Console.WriteLine("=========");
         }
     }
+
+    public static async Task VectorQdrantStoreSample(Kernel kernel)
+    {
+        // docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant:latest
+        // Qdrant dashboard: http://localhost:6333/dashboard
+        // Create a Qdrant VectorStore object
+        var vectorStore = new QdrantVectorStore(new QdrantClient("localhost"));
+        var textEmbeddingGenerationService = kernel.GetRequiredService<ITextEmbeddingGenerationService>();
+
+        // Choose a collection from the database and specify the type of key and record stored in it via Generic parameters.
+        var collection = vectorStore.GetCollection<ulong, Hotel>("skhotels");
+
+        // Create the collection if it doesn't exist yet.
+        await collection.CreateCollectionIfNotExistsAsync();
+
+        // Upsert a record.
+        string descriptionText = "A place where everyone can be happy.";
+        ulong hotelId = 1;
+
+        // Create a record and generate a vector for the description using your chosen embedding generation implementation.
+        await collection.UpsertAsync(new Hotel
+        {
+            HotelId = hotelId,
+            HotelName = "Hotel Happy",
+            Description = descriptionText,
+            DescriptionEmbedding = await GenerateEmbeddingAsync(descriptionText),
+            Tags = new[] { "luxury", "pool" }
+        });
+
+        // Retrieve the upserted record.
+        Hotel? retrievedHotel = await collection.GetAsync(hotelId);
+
+        // Embedding generation method
+        async Task<ReadOnlyMemory<float>> GenerateEmbeddingAsync(string textToVectorize)
+        {
+            return await textEmbeddingGenerationService.GenerateEmbeddingAsync(textToVectorize);
+        }
+
+        // Generate a vector for your search text, using your chosen embedding generation implementation.
+        ReadOnlyMemory<float> searchVector = await GenerateEmbeddingAsync("I'm looking for a hotel where customer happiness is the priority.");
+
+        // Do the search.
+        var searchResult = await collection.VectorizedSearchAsync(searchVector, new() { Top = 1 });
+
+        // Inspect the returned hotel.
+        await foreach (var record in searchResult.Results)
+        {
+            Console.WriteLine("Found hotel description: " + record.Record.Description);
+            Console.WriteLine("Found record score: " + record.Score);
+        }
+    }
 }
 
 public sealed class Glossary
@@ -113,4 +154,22 @@ public sealed class Glossary
 
     [VectorStoreRecordVector(Dimensions: 1536)]
     public ReadOnlyMemory<float> DefinitionEmbedding { get; set; }
+}
+
+public class Hotel
+{
+    [VectorStoreRecordKey]
+    public ulong HotelId { get; set; }
+
+    [VectorStoreRecordData(IsFilterable = true)]
+    public string HotelName { get; set; } = string.Empty;
+
+    [VectorStoreRecordData(IsFullTextSearchable = true)]
+    public string Description { get; set; } = string.Empty;
+
+    [VectorStoreRecordVector(Dimensions: 4)]
+    public ReadOnlyMemory<float>? DescriptionEmbedding { get; set; }
+
+    [VectorStoreRecordData(IsFilterable = true)]
+    public string[] Tags { get; set; } = [];
 }

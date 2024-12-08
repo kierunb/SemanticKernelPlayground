@@ -12,6 +12,11 @@ docker run -it -d `
     mcr.microsoft.com/dotnet/aspire-dashboard:9.0
 ```
 
+**Setup Qdrant vector database container**
+```powershell
+docker run -d --name qdrant -p 6333:6333 -p 6334:6334 qdrant/qdrant:latest
+```
+
 ## AzureOpenAI/OpenAI setup
 
 Provide keys and endpoints using appsetting.json or user secrets.
@@ -49,8 +54,17 @@ Semantic Kernel:
 - https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples/Concepts
 - https://github.com/microsoft/semantic-kernel/tree/main/dotnet/samples
 
+Grounding:
+
+LLM grounding is the process of enriching large language models with domain-specific information, 
+enabling them to understand and produce responses that are not only accurate but also contextually 
+relevant to specific industries or organizational needs.
+
+- https://techcommunity.microsoft.com/blog/fasttrackforazureblog/grounding-llms/3843857
+
 RAG:
 - https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview
+- https://www.wikiwand.com/en/articles/Retrieval-augmented_generation
 
 Kernel Memory:
 - https://microsoft.github.io/kernel-memory/

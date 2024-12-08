@@ -84,7 +84,8 @@ try
 
     //await MemoryStoreScenarios.SemanticKernelMemorySample(kernel, memory);
 
-    await VectorStoreScenarios.VectorStoreSample(kernel);
+    await VectorStoreScenarios.VectorMemoryStoreSample(kernel);
+    //await VectorStoreScenarios.VectorQdrantStoreSample(kernel);
 
     //await WebTextSearchScenarios.BingWebSearch(configuration);
     //await WebTextSearchScenarios.SemanticKernelBingWebSearch(configuration, kernel);
