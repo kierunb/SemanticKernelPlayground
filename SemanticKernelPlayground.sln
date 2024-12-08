@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureOpenAIConsoleApp", "Az
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextConsoleApp", "SpeechToTextConsoleApp\SpeechToTextConsoleApp.csproj", "{4046F918-5153-4368-9B9B-0DEF7227BCE6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticKernelWithKernelMemory", "SemanticKernelWithKernelMemory\SemanticKernelWithKernelMemory.csproj", "{40532D96-F242-4279-80C5-466635C8CB28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{4046F918-5153-4368-9B9B-0DEF7227BCE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4046F918-5153-4368-9B9B-0DEF7227BCE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4046F918-5153-4368-9B9B-0DEF7227BCE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40532D96-F242-4279-80C5-466635C8CB28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40532D96-F242-4279-80C5-466635C8CB28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40532D96-F242-4279-80C5-466635C8CB28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40532D96-F242-4279-80C5-466635C8CB28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
